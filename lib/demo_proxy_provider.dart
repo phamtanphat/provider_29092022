@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_29092022/demo_change_notifier.dart';
 class Count {
-  int value = 0;
+  late int value;
+
+  Count({required this.value});
 
   void increaseValue() {
     value += 1;
+    print("Vao count");
   }
 }
 
@@ -15,7 +18,7 @@ class CountService {
   CountService();
 
   void updateCount(Count count) {
-    count = count;
+    this.count = count;
   }
 
   void handlerCountService() {
@@ -53,7 +56,7 @@ class _DemoProxyProviderState extends State<DemoProxyProvider> {
       ),
       body: MultiProvider(
         providers: [
-          Provider(create: (context) => Count()),
+          Provider(create: (context) => Count(value: 10)),
           ProxyProvider<Count, CountService>(
               create: (context) => CountService(),
               update: (context, count, service) {
@@ -69,7 +72,35 @@ class _DemoProxyProviderState extends State<DemoProxyProvider> {
               }
           ),
         ],
+        child: DemoContainer(),
       )
+    );
+  }
+}
+
+class DemoContainer extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints.expand(),
+      child: Center(
+        child: Consumer<CountRepository>(
+          builder: (context, repository, child){
+            return  Column(
+              children: [
+                Text("Count ${repository.countService?.count?.value}"),
+                ElevatedButton(
+                    onPressed: () {
+                      repository.handlerCountRepository();
+                    },
+                    child: Text("Increase")
+                )
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

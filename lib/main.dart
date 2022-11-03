@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider_29092022/demo_change_notifier.dart';
 import 'package:provider_29092022/demo_provider_basic.dart';
+import 'package:provider_29092022/demo_proxy_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DemoChangeNotifierPage(),
+      home: DemoProxyProvider(),
     );
   }
 }
